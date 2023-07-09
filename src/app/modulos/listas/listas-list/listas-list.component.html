@@ -1,0 +1,310 @@
+<div class="ajuste" style="max-width: 386px;">
+  <div class="col-md-12 mt-3">
+    <nav class="opcao">
+      <div class="nav nav-tabs" id="nav-tab" role="tablist">
+        <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Agenda</a>
+        <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Tarefas</a>
+        <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Finanças</a>
+        <a class="nav-item nav-link" id="nav-finali-tab" data-toggle="tab" href="#nav-finali" role="tab" aria-controls="nav-finali" aria-selected="false">Aprendizado</a>
+      </div>
+    </nav>
+    <div *ngIf="mostrarMesExclusao" class="alert alert-danger text-center mt-1" role="alert">
+      {{assunto}} excluido com Sucesso!!
+    </div>
+    <div class="tab-content" id="nav-tabContent">
+      <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+        <div id="table" class="table-responsive mt-3" style="max-height: 250px;">
+          <table class="table table-borderless">
+            <thead>
+              <tr class="bg-dark text-light">
+                <th>Data</th>
+                <th>Hora</th>
+                <th>Assunto</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let agenda of agendas" >
+                <td>{{agenda.data | date:"dd/MM/yy"}}</td>
+                <td>{{agenda.hora}}</td>
+                <td>{{agenda.assunto}}</td>
+                <div>
+                  <td>
+                    <button class="btn btn-outline-info btn-sm" (click)="pegarIdAgenda(agenda.id)" data-toggle="modal" data-target="#alterarAgenda"><i class="far fa-edit"></i></button>
+                    <button (click)="pegarIdExclusao(agenda.id, agenda.assunto)" data-toggle="modal" data-target="#modalExclusao" class="btn btn-outline-danger btn-sm"><i class="fas fa-user-slash"></i></button>
+                  </td>
+                </div>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="col-12 mt-3 mb-3">
+          <button type="button"class="btn btn-success col-12" data-toggle="modal" data-target="#pesquisarAgenda">Pesquisar Agenda</button>
+        </div>
+        <div class="modal fade" id="pesquisarAgenda" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h6 class="modal-title" id="exampleModalLabel">Pesquisar por dia</h6>
+              </div>
+              <div class="modal-body">
+                  <form [formGroup]="agendaForm">
+                    <div class="col-12 mt-2">
+                      <label for="data">Escolha o dia:</label>
+                      <input
+                        type="date"
+                        class="form-control"
+                        id="data"
+                        formControlName="data"
+                        />
+                    </div>
+                  </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" (click)="pesquisarAgenda()" class="btn btn-success" data-dismiss="modal">Buscar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal fade" id="alterarAgenda" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h6 class="modal-title" id="exampleModalLabel">Alterar agenda</h6>
+              </div>
+              <div class="modal-body">
+                <div *ngIf="mostrarMes" class="alert alert-success text-center" role="alert">
+                  Atualizado com Sucesso!!
+                </div>
+                <form [formGroup]="_agendaForm">
+                  <div class="col-12 mt-2">
+                    <label for="data">Data:</label>
+                    <input
+                      type="date"
+                      class="form-control"
+                      id="data"
+                      formControlName="data"/>
+                  </div>
+                  <div class="col-12 mt-2">
+                    <label for="hora">Hora:</label>
+                    <input
+                      type="time"
+                      class="form-control"
+                      id="hora"
+                      formControlName="hora"/>
+                  </div>
+                  <div class="col-12 mt-2">
+                    <label for="assunto">Assunto:</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="assunto"
+                      formControlName="assunto"/>
+                  </div>
+                  <div class="col-12 mt-2">
+                    <label for="descricao">Descrição:</label>
+                    <textarea class="form-control" id="descricao" formControlName="descricao" rows="5"></textarea>
+                  </div>
+                  <div class="col-12 mt-3">
+                    <button type="button" (click)="atualizarAgenda()" class="btn btn-success col-12">Atualizar agenda</button>
+                  </div>
+                </form>
+              </div>
+              <div class="modal-footer">
+                <div class="col-12">
+                  <button type="button" class="btn btn-danger col-12" data-dismiss="modal">Fechar</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal fade" id="modalExclusao" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h6 class="modal-title" id="exampleModalLabel">Exclusão de agendamento</h6>
+              </div>
+              <div class="modal-body">
+                <div>Deseja realmente excluir este registro?</div>
+                 <div>Assunto: {{ assunto }}</div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" (click)="excluirAgenda()" class="btn btn-danger" data-dismiss="modal">Excluir Registro</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+        <div id="table" class="table-responsive mt-3" style="max-height: 250px;">
+          <table class="table table-borderless">
+            <thead>
+              <tr class="bg-dark text-light">
+                <th>Data Inicio</th>
+                <th>Hora Fim</th>
+                <th>Obs.</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let tarefa of tarefas" >
+                <td>{{ tarefa.inicio | date:"dd/MM/yy" }}</td>
+                <td>{{ tarefa.entrega | date:"dd/MM/yy"}}</td>
+                <td>{{ tarefa.observacao }}</td>
+                <div>
+                  <td>
+                    <button class="btn btn-outline-info btn-sm" (click)="pegarIdTarefa(tarefa.id)" data-toggle="modal" data-target="#alterarTarefa"><i class="far fa-edit"></i></button>
+                    <button (click)="pegarIdExclusaoTarefa(tarefa.id, tarefa.observacao)" data-toggle="modal" data-target="#modalExclusaoTarefa" class="btn btn-outline-danger btn-sm"><i class="fas fa-user-slash"></i></button>
+                  </td>
+                </div>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="col-12 mt-3 mb-3">
+          <button type="button"class="btn btn-success col-12" data-toggle="modal" data-target="#pesquisarTarefa">Pesquisar Tarefa</button>
+        </div>
+        <div class="modal fade" id="pesquisarTarefa" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h6 class="modal-title" id="exampleModalLabel">Pesquisar por dia</h6>
+              </div>
+              <div class="modal-body">
+                  <form [formGroup]="agendaForm">
+                    <div class="col-12 mt-2">
+                      <label for="data">Escolha o dia:</label>
+                      <input
+                        type="date"
+                        class="form-control"
+                        id="data"
+                        formControlName="data"
+                        />
+                    </div>
+                  </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" (click)="pesquisarTarefa()" class="btn btn-success" data-dismiss="modal">Buscar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal fade" id="alterarTarefa" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h6 class="modal-title" id="exampleModalLabel">Alterar tarefa</h6>
+              </div>
+              <div class="modal-body">
+                <div *ngIf="mostrarMes" class="alert alert-success text-center" role="alert">
+                  Atualizado com Sucesso!!
+                </div>
+                <form [formGroup]="_tarefaForm">
+                  <div class="col-12 mt-2">
+                    <label for="inicio">Início:</label>
+                    <input
+                      type="date"
+                      class="form-control"
+                      id="inicio"
+                      formControlName="inicio"/>
+                  </div>
+                  <div class="col-12 mt-2">
+                    <label for="entrega">Entrega:</label>
+                    <input
+                      type="date"
+                      class="form-control"
+                      id="entrega"
+                      formControlName="entrega"/>
+                  </div>
+                  <div class="col-12 mt-2">
+                    <label for="hora">Hora:</label>
+                    <input
+                      type="time"
+                      class="form-control"
+                      id="hora"
+                      formControlName="hora"/>
+                  </div>
+                  <div class="col-12 mt-2">
+                    <label for="priridade">Prioridade:</label>
+                    <select class="form-control" id="prioridade" formControlName="prioridade">
+                      <option selected>Escolha</option>
+                      <option>Baixa</option>
+                      <option>Normal</option>
+                      <option>Alto</option>
+                      <option>Urgente</option>
+                    </select>
+                  </div>
+                  <div class="col-12 mt-2">
+                    <label for="descricao">Descrição:</label>
+                    <textarea class="form-control" id="descricao" formControlName="descricao" rows="6"></textarea>
+                  </div>
+                  <div class="col-12 mt-2">
+                    <label for="observacao">Observação:</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="observacao"
+                      formControlName="observacao"/>
+                  </div>
+                  <div class="col-12 mt-2">
+                    <label for="statusTarefa">Status da Tarefa:</label>
+                    <select class="form-control" id="statusTarefa" formControlName="statusTarefa">
+                      <option selected>Escolha</option>
+                      <option>Em análise</option>
+                      <option>Pendente</option>
+                      <option>Em execução</option>
+                      <option>Finalizado</option>
+                    </select>
+                  </div>
+                  <div class="col-12 mt-3">
+                    <button type="button" (click)="atualizarTarefa()" class="btn btn-success col-12">Atualizar agenda</button>
+                  </div>
+                </form>
+              </div>
+              <div class="modal-footer">
+                <div class="col-12">
+                  <button type="button" class="btn btn-danger col-12" data-dismiss="modal">Fechar</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal fade" id="modalExclusaoTarefa" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h6 class="modal-title" id="exampleModalLabel">Exclusão de agendamento</h6>
+              </div>
+              <div class="modal-body">
+                <div>Deseja realmente excluir este registro?</div>
+                 <div>Assunto: {{ assunto }}</div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" (click)="excluirTarefa()" class="btn btn-danger" data-dismiss="modal">Excluir Registro</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
+
+
+
+
+
+      </div>
+      <div class="tab-pane fade" id="nav-finali" role="tabpanel" aria-labelledby="nav-finali-tab">
+
+
+
+      </div>
+    </div>
+    <div class="col-12 mt-3 mb-3">
+      <button (click)="voltar()" type="button"class="btn btn-warning col-12">Menu</button>
+    </div>
+  </div>
+
+
+
+</div>

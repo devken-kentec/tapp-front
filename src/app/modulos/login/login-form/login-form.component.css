@@ -1,0 +1,19 @@
+div.bg-fmenu{
+  background-color: #6A5ACD !important;
+  text-align: center;
+}
+
+div.modal-header{
+  color: white;
+  background-color: #6A5ACD !important;
+}
+
+a.link {
+  color: #248EFF !important;
+}
+
+a.link:hover {
+  text-decoration: underline #248EFF !important;
+}
+
+

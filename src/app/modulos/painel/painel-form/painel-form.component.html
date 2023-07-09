@@ -1,0 +1,260 @@
+<div class="ajuste" style="max-width: 386px;">
+  <div class="col-md-12 mt-3">
+    <nav class="opcao">
+      <div class="nav nav-tabs" id="nav-tab" role="tablist">
+        <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Agenda</a>
+        <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Tarefas</a>
+        <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Finanças</a>
+        <a class="nav-item nav-link" id="nav-finali-tab" data-toggle="tab" href="#nav-finali" role="tab" aria-controls="nav-finali" aria-selected="false">Aprendizado</a>
+      </div>
+    </nav>
+    <div class="tab-content" id="nav-tabContent">
+      <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+        <form [formGroup]="agendaForm">
+          <div class="col-md-12 mt-2">
+            <label for="data">Data:</label>
+            <input
+              type="date"
+              class="form-control"
+              id="data"
+              formControlName="data"/>
+          </div>
+          <div class="col-md-12 mt-2">
+            <label for="hora">Hora:</label>
+            <input
+              type="time"
+              class="form-control"
+              id="hora"
+              formControlName="hora"/>
+          </div>
+          <div class="col-md-12 mt-2">
+            <label for="assunto">Assunto:</label>
+            <input
+              type="text"
+              class="form-control"
+              id="assunto"
+              formControlName="assunto"/>
+          </div>
+          <div class="col-md-12 mt-2">
+            <label for="descricao">Descrição:</label>
+            <textarea class="form-control" id="descricao" formControlName="descricao" rows="5"></textarea>
+          </div>
+          <div class="col-md-12 mt-3">
+            <button type="button" (click)="salvarAgenda()" class="btn btn-success col-md-12">Agendar</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+        <form [formGroup]="tarefaForm">
+          <div class="col-md-12 mt-2">
+            <label for="inicio">Início:</label>
+            <input
+              type="date"
+              class="form-control"
+              id="inicio"
+              formControlName="inicio"/>
+          </div>
+          <div class="col-md-12 mt-2">
+            <label for="entrega">Entrega:</label>
+            <input
+              type="date"
+              class="form-control"
+              id="entrega"
+              formControlName="entrega"/>
+          </div>
+          <div class="col-md-12 mt-2">
+            <label for="hora">Hora:</label>
+            <input
+              type="time"
+              class="form-control"
+              id="hora"
+              formControlName="hora"/>
+          </div>
+          <div class="col-md-12 mt-2">
+            <label for="priridade">Prioridade:</label>
+            <select class="form-control" id="prioridade" formControlName="prioridade">
+              <option selected>Escolha</option>
+              <option>Baixa</option>
+              <option>Normal</option>
+              <option>Alto</option>
+              <option>Urgente</option>
+            </select>
+          </div>
+          <div class="col-md-12 mt-2">
+            <label for="descricao">Descrição:</label>
+            <textarea class="form-control" id="descricao" formControlName="descricao" rows="6"></textarea>
+          </div>
+          <div class="col-md-12 mt-2">
+            <label for="observacao">Observação:</label>
+            <input
+              type="text"
+              class="form-control"
+              id="observacao"
+              formControlName="observacao"/>
+          </div>
+          <div class="col-md-12 mt-2">
+            <label for="statusTarefa">Status da Tarefa:</label>
+            <select class="form-control" id="statusTarefa" formControlName="statusTarefa">
+              <option selected>Escolha</option>
+              <option>Em análise</option>
+              <option>Pendente</option>
+              <option>Em execução</option>
+              <option>Finalizado</option>
+            </select>
+          </div>
+          <div class="col-md-12 mt-3">
+            <button type="button" (click)="salvarTarefa()" class="btn btn-success col-md-12">Confirmar Tarefa</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
+        <form [formGroup]="financasForm">
+          <div class="col-md-12 mt-2">
+            <label for="recurso">Recurso:</label>
+            <select class="form-control" id="recurso" formControlName="recurso">
+              <option selected>Escolha</option>
+              <option>Empresa</option>
+              <option>Pessoal</option>
+            </select>
+          </div>
+          <div class="col-md-12 mt-2">
+            <label for="data">Data:</label>
+            <input
+              type="date"
+              class="form-control"
+              id="data"
+              formControlName="data"/>
+          </div>
+          <div class="col-md-12 mt-2">
+            <label for="tipo">Tipo:</label>
+            <select class="form-control" id="tipo" formControlName="tipo" (blur)="direcionar()" (focus)="limpar()">
+              <option selected>Escolha</option>
+              <option>Recebimento</option>
+              <option>Pagamento</option>
+            </select>
+          </div>
+          <div class="col-md-12 mt-2">
+            <label for="referente">Referente:</label>
+            <select class="form-control" id="referente" formControlName="referente">
+              <option selected>Escolha</option>
+              <option>Salário</option>
+              <option>Proventos</option>
+              <option>Vendas</option>
+              <option>Prestação de serviço</option>
+              <option>Ganhos extras</option>
+              <option>Aluguel</option>
+              <option>Veículo</option>
+              <option>Combustível</option>
+              <option>Utensílios</option>
+              <option>Lanche</option>
+              <option>Refeição</option>
+              <option>Animais</option>
+              <option>Mercado</option>
+              <option>Farmácia</option>
+              <option>Passeio</option>
+              <option>Viagem</option>
+              <option>Outros</option>
+            </select>
+          </div>
+          <div class="col-md-12 mt-2">
+            <label for="valor">Valor:</label>
+            <input
+              type="number"
+              class="form-control"
+              id="valor"
+              formControlName="valor"/>
+          </div>
+          <div class="col-md-12 mt-2">
+            <label for="documento">Documento:</label>
+            <input
+              type="text"
+              class="form-control"
+              id="documento"
+              formControlName="documento"/>
+          </div>
+          <div class="col-md-12 mt-2">
+            <label for="descricao">Descrição:</label>
+            <textarea class="form-control" id="descricao" formControlName="descricao" rows="6"></textarea>
+          </div>
+          <div class="col-md-12 mt-2">
+            <label for="vencimento">Vencimento:</label>
+            <input
+              type="date"
+              class="form-control"
+              id="vencimento"
+              formControlName="vencimento"/>
+          </div>
+          <div *ngIf="statusRec" class="col-md-12 mt-2">
+            <label for="statusRecebimento">Status do Recebimento:</label>
+            <select class="form-control" id="statusRecebimento" formControlName="status">
+              <option selected>Escolha</option>
+              <option>á Receber </option>
+              <option>Recebido</option>
+            </select>
+          </div>
+          <div *ngIf="statusPag" class="col-md-12 mt-2">
+            <label for="statusPagamemento">Status do Pagamento:</label>
+            <select class="form-control" id="statusPagamemento" formControlName="status">
+              <option selected>Escolha</option>
+              <option>á Pagar </option>
+              <option>Pago</option>
+            </select>
+          </div>
+          <div class="col-md-12 mt-3">
+            <button type="button" (click)="salvarFinanceiro()" class="btn btn-success col-md-12">Confirmar {{ indica }}</button>
+          </div>
+        </form>
+      </div>
+      <div class="tab-pane fade" id="nav-finali" role="tabpanel" aria-labelledby="nav-finali-tab">
+        <form [formGroup]="aprendeForm">
+          <div class="col-md-12 mt-2">
+            <label for="modalidade">Modalidade:</label>
+            <select class="form-control" id="modalidade" formControlName="modalidade">
+              <option selected>Escolha</option>
+              <option>Curiosidades</option>
+              <option>Estudos</option>
+              <option>Educacional</option>
+              <option>Trabalho</option>
+              <option>Diversão</option>
+              <option>Outros</option>
+            </select>
+          </div>
+          <div class="col-md-12 mt-2">
+            <label for="date">Data:</label>
+            <input
+              type="date"
+              class="form-control"
+              id="data"
+              formControlName="data"/>
+          </div>
+          <div class="col-md-12 mt-2">
+            <label for="titulo">Título:</label>
+            <input
+              type="text"
+              class="form-control"
+              id="titulo"
+              formControlName="titulo"/>
+          </div>
+          <div class="col-md-12 mt-2">
+            <label for="url">URL:</label>
+            <textarea class="form-control" id="url" formControlName="url" rows="2"></textarea>
+          </div>
+          <div class="col-md-12 mt-2">
+            <label for="descricao">Descrição:</label>
+            <textarea class="form-control" id="descricao" formControlName="descricao" rows="5"></textarea>
+          </div>
+          <div class="col-md-12 mt-3">
+            <button type="button" (click)="salvarAprendizado()" class="btn btn-success col-md-12">Gravar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="col-md-12 mt-3 mb-3">
+      <button (click)="voltar()" type="button"class="btn btn-warning col-md-12">Menu</button>
+    </div>
+</div>
+
+
+</div>
